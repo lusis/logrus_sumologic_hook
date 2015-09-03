@@ -1,4 +1,4 @@
-package logrus_sumologic
+package logrus_sumologic_hook
 
 import (
 	"bytes"
