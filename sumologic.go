@@ -60,7 +60,7 @@ func (hook *SumoLogicHook) httpPost(s []byte) error {
 	body := bytes.NewBuffer(s)
 	resp, err := hook.HttpClient.Post(hook.Url, "application/json", body)
 	defer resp.Body.Close()
-	if err != nil || resp.StatusCode == 429 {
+	if err != nil || resp == nil || resp.StatusCode != 201 {
 		return fmt.Errorf("Failed to post data (%s): %s", resp.StatusCode, err.Error())
 	} else {
 		return nil
