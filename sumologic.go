@@ -58,10 +58,16 @@ func (hook *SumoLogicHook) Fire(entry *logrus.Entry) error {
 
 func (hook *SumoLogicHook) httpPost(s []byte) error {
 	body := bytes.NewBuffer(s)
-	resp, err := hook.HttpClient.Post(hook.Url, "application/json", body)
+	c := hook.HttpClient
+	if c == nil {
+		return fmt.Errorf("Something went wrong")
+	}
+	resp, err := c.Post(hook.Url, "application/json", body)
 	defer resp.Body.Close()
-	if err != nil || resp == nil || resp.StatusCode != 201 {
-		return fmt.Errorf("Failed to post data (%s): %s", resp.StatusCode, err.Error())
+	if err != nil || resp == nil {
+		return fmt.Errorf("Failed to post data: %s", err.Error())
+	} else if resp.StatusCode != 201 {
+		return fmt.Errorf("Failed to post data: %s", resp.Status)
 	} else {
 		return nil
 	}
