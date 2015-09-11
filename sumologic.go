@@ -66,7 +66,7 @@ func (hook *SumoLogicHook) httpPost(s []byte) error {
 	defer resp.Body.Close()
 	if err != nil || resp == nil {
 		return fmt.Errorf("Failed to post data: %s", err.Error())
-	} else if resp.StatusCode != 201 {
+	} else if resp.StatusCode != 200 {
 		return fmt.Errorf("Failed to post data: %s", resp.Status)
 	} else {
 		return nil
